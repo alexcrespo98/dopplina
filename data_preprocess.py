@@ -9,12 +9,15 @@ import matplotlib.pyplot as plt
 base_dir = os.path.dirname(__file__)
 data_dir = os.path.join(base_dir, "data_collection")
 out_dir = os.path.join(base_dir, "preprocessed_data")
-os.makedirs(os.path.join(out_dir, "0_pp"), exist_ok=True)
-os.makedirs(os.path.join(out_dir, "1_pp"), exist_ok=True)
 
 def preprocess_file(filepath, label, output_dir):
     try:
         df = pd.read_csv(filepath)
+        expected_cols = ['timestamp_ms', 'value']
+        # Check columns shape
+        if list(df.columns) != expected_cols:
+            print(f"bro... i'm expecting {expected_cols} columns... you're giving me {list(df.columns)}")
+            return None
 
         # Force numeric conversion (coerce invalid entries to NaN)
         df['timestamp_ms'] = pd.to_numeric(df['timestamp_ms'], errors='coerce')
@@ -22,6 +25,11 @@ def preprocess_file(filepath, label, output_dir):
 
         # Drop rows with NaN
         df = df.dropna()
+
+        # Check rows shape
+        if df.shape[0] == 0:
+            print(f"bro... im expecting >0 rows... you're giving me 0")
+            return None
 
         timestamps = df['timestamp_ms'].values
         values = df['value'].values
@@ -67,17 +75,37 @@ def preprocess_file(filepath, label, output_dir):
 def main():
     all_features = []
 
-    for label_str in ["0", "1"]:
-        label = int(label_str)
+    # Adapt to however many folders are present in data_collection
+    if not os.path.exists(data_dir):
+        print(f"i don't see any files in the {data_dir} folder")
+        return
+
+    speed_folders = [f for f in os.listdir(data_dir) if os.path.isdir(os.path.join(data_dir, f))]
+    if not speed_folders:
+        print(f"i don't see any files in the {data_dir} folder")
+        return
+
+    # Make output folders as needed
+    for speed in speed_folders:
+        out_sub = os.path.join(out_dir, f"{speed}_pp")
+        os.makedirs(out_sub, exist_ok=True)
+
+    # Go through each folder
+    for label_str in speed_folders:
         folder = os.path.join(data_dir, label_str)
         output_subdir = os.path.join(out_dir, f"{label_str}_pp")
+        label = label_str  # keep as string for regression, or try float(label_str)
 
-        for file in os.listdir(folder):
-            if file.endswith(".csv"):
-                path = os.path.join(folder, file)
-                features = preprocess_file(path, label, output_subdir)
-                if features:
-                    all_features.append(features)
+        files = [f for f in os.listdir(folder) if f.endswith(".csv")]
+        if not files:
+            print(f"i don't see any files in the {folder} folder")
+            continue
+
+        for file in files:
+            path = os.path.join(folder, file)
+            features = preprocess_file(path, label, output_subdir)
+            if features:
+                all_features.append(features)
 
     # Save feature summary for ML
     if all_features:
