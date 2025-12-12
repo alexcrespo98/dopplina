@@ -101,6 +101,12 @@ The HB100 Doppler radar detects movement via the Doppler effect. For water flow 
 - Salt water (conducts, doesn't scatter as well)
 - Metal particles (dangerous, conductive)
 
+**Safety & Cleanup Notes:**
+- Use food-safe additives only (milk, cornstarch) for potable water systems
+- Flush system thoroughly after testing to prevent biological growth
+- Polystyrene beads may clog fine filters - use with caution
+- Dispose of test water appropriately (milk/cornstarch solutions can be poured down drain)
+
 #### 2. **Increase Turbulence**
 
 **Why:** Turbulent flow creates moving eddies that produce stronger Doppler signatures.
@@ -110,7 +116,7 @@ The HB100 Doppler radar detects movement via the Doppler effect. For water flow 
 - Add a **mesh screen** or **perforated plate** downstream of sensor
 - Use **rough pipe interior** (textured, not smooth)
 - Position sensor **after a bend** or **T-junction**
-- Increase flow rates to exceed laminar threshold (Reynolds > 2300)
+- Increase flow rates to exceed laminar threshold (Reynolds > 2300 for 3/4" pipe at ~2 GPM)
 
 #### 3. **Optimize Sensor Position**
 
@@ -166,7 +172,7 @@ If HB100 still doesn't work well after improvements:
 
 #### Option 1: Different Doppler Sensor
 - **Ultrasonic Doppler** - better for water (Speed Sensor DG10)
-- **Laser Doppler Velocimetry** - very accurate but expensive
+- **Laser Doppler velocimetry** - very accurate but expensive
 - **Radar with lower frequency** (2.4 GHz better than 10.5 GHz for water)
 
 #### Option 2: Different Sensing Principle
@@ -249,7 +255,7 @@ If you want to test improvements immediately without major changes:
 1. **Add milk to water** - 2 tablespoons per gallon, run test at one flow rate
 2. **Tilt the sensor** - Try 45° angle instead of perpendicular
 3. **Increase LM358 gain** - Turn gain pot to maximum
-4. **Add high-pass filter** - 0.1µF capacitor in series with signal path
+4. **Add high-pass filter** - 0.1µF capacitor in series with 10kΩ resistor (fc = 159 Hz cutoff)
 5. **Measure at higher flow** - Try 3-4 GPM instead of lower values
 
 ---
