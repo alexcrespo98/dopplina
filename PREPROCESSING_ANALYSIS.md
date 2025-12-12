@@ -197,6 +197,8 @@ For any future analysis or deployment with this dataset:
 
 ```python
 # Preprocessing pipeline
+EPSILON = 1e-10  # Small constant to prevent division by zero
+
 def preprocess_doppler_signal(signal):
     # Step 1: Remove outliers
     q1, q3 = np.percentile(signal, [25, 75])
@@ -208,7 +210,7 @@ def preprocess_doppler_signal(signal):
     signal = scipy.signal.detrend(signal, type='linear')
     
     # Step 3: Z-score normalize
-    signal = (signal - np.mean(signal)) / (np.std(signal) + 1e-10)
+    signal = (signal - np.mean(signal)) / (np.std(signal) + EPSILON)
     
     return signal
 ```
@@ -307,17 +309,17 @@ For production use:
 import numpy as np
 from scipy import signal
 
-def preprocess_doppler_channel(data, sampling_rate=100):
+def preprocess_doppler_channel(data):
     """
     Complete preprocessing pipeline for Doppler signals
     
     Args:
         data: Raw signal array
-        sampling_rate: Sampling frequency in Hz
         
     Returns:
         Preprocessed signal array
     """
+    EPSILON = 1e-10  # Small constant to prevent division by zero
     # Step 1: Remove outliers (IQR method)
     q1 = np.percentile(data, 25)
     q3 = np.percentile(data, 75)
@@ -333,11 +335,12 @@ def preprocess_doppler_channel(data, sampling_rate=100):
     # Step 3: Z-score normalization
     mean = np.mean(data_detrended)
     std = np.std(data_detrended)
-    data_normalized = (data_detrended - mean) / (std + 1e-10)
+    data_normalized = (data_detrended - mean) / (std + EPSILON)
     
     return data_normalized
 
 # Usage example
+raw_signal = doppler_data[:, channel_index]  # Extract one channel
 preprocessed_signal = preprocess_doppler_channel(raw_signal)
 ```
 
