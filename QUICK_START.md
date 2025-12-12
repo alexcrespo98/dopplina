@@ -9,7 +9,8 @@ Your HB100 Doppler sensor data has been analyzed. **Usability: 2/5 (Marginally U
 ## 📊 What We Found
 
 ✓ **Good news:** Hardware works! (Signal-to-noise ratio is 13:1)  
-❌ **Bad news:** Signal quality too poor for reliable flow detection
+✓ **Better news:** Preprocessing helps significantly! (R² improves from -0.28 to +0.21)  
+⚠️ **Still limited:** Even with preprocessing, signal quality is moderate (3/5 usability)
 
 **The problem:** Clean water doesn't reflect microwaves well enough.
 
@@ -67,12 +68,12 @@ The notebook will automatically:
 
 ## 🎯 Expected Results After Improvements
 
-| Metric | Current | After Seeded Water |
-|--------|---------|-------------------|
-| Doppler correlation | r=0.41 (weak) | r>0.7 (strong) |
-| Signal strength | Baseline | 5-10x stronger |
-| ML accuracy | ~40% | 70-85% |
-| Frequency range | 6-36 Hz (scattered) | Clear monotonic trend |
+| Metric | Current Raw | With Preprocessing | After Seeded Water + Preprocessing |
+|--------|------------|-------------------|-----------------------------------|
+| Doppler correlation | r=0.41 (weak) | r=0.62 (moderate) ✓ | r>0.8 (strong) |
+| Signal strength | Baseline | Same | 5-10x stronger |
+| ML R² score | -0.28 (poor) | +0.21 (usable) ✓ | >0.7 (good) |
+| ML RMSE | 1.52 GPM | 1.19 GPM ✓ | <0.5 GPM |
 
 ---
 
@@ -94,10 +95,11 @@ A: You can run it on current data to see analysis structure, but results won't b
 
 ## 📞 Summary
 
-**Current data:** 2/5 usability indicators - marginally usable  
+**Current data (raw):** 2/5 usability indicators - marginally usable  
+**Current data (preprocessed):** 3/5 usability indicators - moderately usable ✓  
 **Root cause:** Clean water + suboptimal setup  
-**Solution:** Seeded water + better positioning = 5-10x improvement  
-**Next action:** Run quick test with milk + 45° angle  
+**Solution:** Preprocessing helps! But seeded water + better positioning = 5-10x more improvement  
+**Next action:** Apply preprocessing pipeline + run quick test with milk + 45° angle  
 
 **Most important file:** `IMPROVED_DATA_COLLECTION_RECOMMENDATIONS.md`
 
