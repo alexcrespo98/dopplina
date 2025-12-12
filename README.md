@@ -41,17 +41,24 @@
 
 - Use `doppler_king.py` for a step-by-step interactive pipeline through all stages.
 
+### 7. Data Analysis
+
+- Use Jupyter notebooks in `notebooks/` directory for comprehensive analysis:
+  - `doppler_analysis.ipynb`: Analyze Doppler data with signal processing and ML techniques
+  - See `notebooks/README.md` for setup instructions
+
 ## Scripts Overview
 
-| Script                 | Purpose                                                                 |
-|------------------------|-------------------------------------------------------------------------|
-| doppler_test.ino       | Microcontroller code: displays signal for tuning, outputs to serial     |
-| doppler_collection.py  | Collects labeled speed samples, saves as CSV                            |
-| doppler_test.py        | Interactive test cycles for flow on/off, saves CSV                      |
-| data_preprocess.py     | Processes CSV data, extracts features, saves FFT results                |
-| doppler_train.py       | Trains ML model from features                                           |
-| doppler_guess.py       | Uses model to predict flow on new data                                  |
-| doppler_king.py        | Interactive pipeline for all steps                                      |
+| Script/Notebook              | Purpose                                                                 |
+|------------------------------|-------------------------------------------------------------------------|
+| doppler_test.ino             | Microcontroller code: displays signal for tuning, outputs to serial     |
+| doppler_collection.py        | Collects labeled speed samples, saves as CSV                            |
+| doppler_test.py              | Interactive test cycles for flow on/off, saves CSV                      |
+| data_preprocess.py           | Processes CSV data, extracts features, saves FFT results                |
+| doppler_train.py             | Trains ML model from features                                           |
+| doppler_guess.py             | Uses model to predict flow on new data                                  |
+| doppler_king.py              | Interactive pipeline for all steps                                      |
+| notebooks/doppler_analysis.ipynb | Comprehensive Doppler data analysis with signal processing and ML   |
 
 ## How It Works
 
@@ -98,9 +105,13 @@
 - `doppler_train.py`
 - `doppler_guess.py`
 - `doppler_king.py`
+- `notebooks/` (Jupyter notebooks for analysis)
+  - `doppler_analysis.ipynb` (comprehensive analysis)
+  - `README.md` (notebook documentation)
 - `data_collection/` (CSV files)
 - `preprocessed_data/` (FFT/features)
 - `doppler_classifier.pkl` (trained model)
+- `requirements.txt` (Python dependencies)
 
 ## Notes
 
